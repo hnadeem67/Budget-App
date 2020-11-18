@@ -1,0 +1,26 @@
+.btn-group button {
+  color: black;
+  border: none;
+  background-color: white;
+}
+
+.btn-group button:not(:last-child) {
+  border: none;
+}
+
+.btn-group button:hover {
+  color: #e91e63;
+}
+
+.deleteButton button {
+  display: block;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: white;
+  padding-top: 200%;
+}
+
+.deleteButton button:hover {
+  color: #e91e63;
+}
