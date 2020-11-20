@@ -8,6 +8,14 @@ import "./profileScreen.css";
 import logo from "./app/assets/man.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
+export default function App() {
+  return (
+    <NavigationContainer>
+      <MyTabs />
+    </NavigationContainer>
+  );
+}
+
 function HomeScreen() {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -25,6 +33,10 @@ function ReceiptScreen() {
 }
 
 function ProfileScreen() {
+  const [name, setName] = React.useState('Profile Name');
+  const [address, setAddress] = React.useState('Address');
+  const [phone, setPhone] = React.useState('Phone Number');
+  const [email, setEmail] = React.useState('Email');
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <View
@@ -34,14 +46,33 @@ function ProfileScreen() {
       </View>
 
       <View style={{ alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ paddingBottom: "5%", fontSize: 25 }}>Profile Name</Text>
+        <Text style={{ paddingBottom: "5%", fontSize: 25 }}>{name}</Text>
       </View>
 
       <View style={{ paddingLeft: "5%" }}>
         <Text style={{ color: "#e91e63" }}>Account Settings</Text>
       </View>
 
-      <div className="btn-group">
+      <View>
+        <Text>Name:</Text>
+        <TextInput
+        style={styles.name}
+        onChangeText={(val) => setName(val)}/>
+        <Text>Address:</Text>
+        <TextInput
+        style={styles.address}
+        onChangeText={(val) => setAddress(val)}/>
+        <Text>Phone Number</Text>
+        <TextInput
+        style={styles.phone}
+        onChangeText={(val) => setPhone(val)}/>
+        <Text>Email</Text>
+        <TextInput
+        style={styles.email}
+        onChangeText={(val) => setEmail(val)}/>
+      </View>
+
+      {/*<div className="btn-group">
         <ul style={{ listStyle: "none" }}>
           <li>
             <button>Change Name</button>
@@ -56,7 +87,7 @@ function ProfileScreen() {
             <button>Change Email</button>
           </li>
         </ul>
-      </div>
+        </div>*/}
 
       <View style={{ alignItems: "center", justifyContent: "center" }}>
         <div className="deleteButton">
@@ -66,6 +97,37 @@ function ProfileScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  name: {
+    borderWidth: 1,
+    borderColor: '#777',
+    padding: 8,
+    margin: 10,
+    width: 200,
+  },
+  address: {
+    borderWidth: 1,
+    borderColor: '#777',
+    padding: 8,
+    margin: 10,
+    width: 200,
+  },
+  phone: {
+    borderWidth: 1,
+    borderColor: '#777',
+    padding: 8,
+    margin: 10,
+    width: 200,
+  },
+  email: {
+    borderWidth: 1,
+    borderColor: '#777',
+    padding: 8,
+    margin: 10,
+    width: 200,
+  },
+  });
 
 const Tab = createBottomTabNavigator();
 
@@ -111,10 +173,4 @@ function MyTabs() {
   );
 }
 
-export default function App() {
-  return (
-    <NavigationContainer>
-      <MyTabs />
-    </NavigationContainer>
-  );
-}
+
