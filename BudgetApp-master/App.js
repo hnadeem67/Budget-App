@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
+import { TextInput } from "react-native";
 import "./profileScreen.css";
 import logo from "./app/assets/man.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -33,10 +34,10 @@ function ReceiptScreen() {
 }
 
 function ProfileScreen() {
-  const [name, setName] = React.useState('Profile Name');
-  const [address, setAddress] = React.useState('Address');
-  const [phone, setPhone] = React.useState('Phone Number');
-  const [email, setEmail] = React.useState('Email');
+  const [name, setName] = React.useState("Profile Name");
+  const [address, setAddress] = React.useState("Address");
+  const [phone, setPhone] = React.useState("Phone Number");
+  const [email, setEmail] = React.useState("Email");
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <View
@@ -55,21 +56,16 @@ function ProfileScreen() {
 
       <View>
         <Text>Name:</Text>
-        <TextInput
-        style={styles.name}
-        onChangeText={(val) => setName(val)}/>
+        <TextInput style={styles.name} onChangeText={(val) => setName(val)} />
         <Text>Address:</Text>
         <TextInput
-        style={styles.address}
-        onChangeText={(val) => setAddress(val)}/>
+          style={styles.address}
+          onChangeText={(val) => setAddress(val)}
+        />
         <Text>Phone Number</Text>
-        <TextInput
-        style={styles.phone}
-        onChangeText={(val) => setPhone(val)}/>
+        <TextInput style={styles.phone} onChangeText={(val) => setPhone(val)} />
         <Text>Email</Text>
-        <TextInput
-        style={styles.email}
-        onChangeText={(val) => setEmail(val)}/>
+        <TextInput style={styles.email} onChangeText={(val) => setEmail(val)} />
       </View>
 
       {/*<div className="btn-group">
@@ -101,33 +97,33 @@ function ProfileScreen() {
 const styles = StyleSheet.create({
   name: {
     borderWidth: 1,
-    borderColor: '#777',
+    borderColor: "#777",
     padding: 8,
     margin: 10,
     width: 200,
   },
   address: {
     borderWidth: 1,
-    borderColor: '#777',
+    borderColor: "#777",
     padding: 8,
     margin: 10,
     width: 200,
   },
   phone: {
     borderWidth: 1,
-    borderColor: '#777',
+    borderColor: "#777",
     padding: 8,
     margin: 10,
     width: 200,
   },
   email: {
     borderWidth: 1,
-    borderColor: '#777',
+    borderColor: "#777",
     padding: 8,
     margin: 10,
     width: 200,
   },
-  });
+});
 
 const Tab = createBottomTabNavigator();
 
@@ -172,5 +168,3 @@ function MyTabs() {
     </Tab.Navigator>
   );
 }
-
-
