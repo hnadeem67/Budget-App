@@ -1,12 +1,11 @@
 import * as React from "react";
-import { Camera, Image, Text, View, Button } from "react-native";
+import { Image, Text, View, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 import { TextInput } from "react-native";
 import logo from "./app/assets/man.png";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function App() {
   return (
