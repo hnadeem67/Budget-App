@@ -5,7 +5,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 import { TextInput } from "react-native";
-import "./profileScreen.css";
 import logo from "./app/assets/man.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -41,9 +40,16 @@ function ProfileScreen() {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <View
-        style={{ padding: 20, alignItems: "center", justifyContent: "center" }}
+        style={{
+          padding: 20,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        <Image source={logo} style={{ height: 100, width: 100 }}></Image>
+        <Image
+          source={logo}
+          style={{ height: 100, width: 100, paddingTop: "10%" }}
+        ></Image>
       </View>
 
       <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -54,7 +60,7 @@ function ProfileScreen() {
         <Text style={{ color: "#e91e63" }}>Account Settings</Text>
       </View>
 
-      <View>
+      <View style={{ paddingLeft: "5%", paddingTop: "2.5%" }}>
         <Text>Name:</Text>
         <TextInput style={styles.name} onChangeText={(val) => setName(val)} />
         <Text>Address:</Text>
@@ -66,29 +72,6 @@ function ProfileScreen() {
         <TextInput style={styles.phone} onChangeText={(val) => setPhone(val)} />
         <Text>Email</Text>
         <TextInput style={styles.email} onChangeText={(val) => setEmail(val)} />
-      </View>
-
-      {/*<div className="btn-group">
-        <ul style={{ listStyle: "none" }}>
-          <li>
-            <button>Change Name</button>
-          </li>
-          <li>
-            <button>Change Address</button>
-          </li>
-          <li>
-            <button>Change Phone Number</button>
-          </li>
-          <li>
-            <button>Change Email</button>
-          </li>
-        </ul>
-        </div>*/}
-
-      <View style={{ alignItems: "center", justifyContent: "center" }}>
-        <div className="deleteButton">
-          <button>Delete Account</button>
-        </div>
       </View>
     </View>
   );
