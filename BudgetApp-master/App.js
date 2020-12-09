@@ -41,37 +41,51 @@ function ProfileScreen() {
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <View
         style={{
-          padding: 20,
+          paddingTop: "10%",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <Image
-          source={logo}
-          style={{ height: 100, width: 100, paddingTop: "10%" }}
-        ></Image>
+        <Image source={logo} style={{ height: 100, width: 100 }}></Image>
       </View>
 
       <View style={{ alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ paddingBottom: "5%", fontSize: 25 }}>{name}</Text>
+        <Text style={{ paddingBottom: "5%", fontSize: 35 }}>{name}</Text>
       </View>
 
-      <View style={{ paddingLeft: "5%" }}>
-        <Text style={{ color: "#e91e63" }}>Account Settings</Text>
+      <View style={{ paddingLeft: "5%", paddingBottom: "5%" }}>
+        <Text style={{ color: "#e91e63", fontSize: 20 }}>Account Settings</Text>
       </View>
 
       <View style={{ paddingLeft: "5%", paddingTop: "2.5%" }}>
-        <Text>Name:</Text>
-        <TextInput style={styles.name} onChangeText={(val) => setName(val)} />
-        <Text>Address:</Text>
-        <TextInput
-          style={styles.address}
-          onChangeText={(val) => setAddress(val)}
-        />
+        <Text>Name</Text>
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
+          <TextInput style={styles.name} onChangeText={(val) => setName(val)} />
+        </View>
+
+        <Text>Address</Text>
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
+          <TextInput
+            style={styles.address}
+            onChangeText={(val) => setAddress(val)}
+          />
+        </View>
+
         <Text>Phone Number</Text>
-        <TextInput style={styles.phone} onChangeText={(val) => setPhone(val)} />
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
+          <TextInput
+            style={styles.phone}
+            onChangeText={(val) => setPhone(val)}
+          />
+        </View>
+
         <Text>Email</Text>
-        <TextInput style={styles.email} onChangeText={(val) => setEmail(val)} />
+        <View style={{ alignItems: "center", justifyContent: "center" }}>
+          <TextInput
+            style={styles.email}
+            onChangeText={(val) => setEmail(val)}
+          />
+        </View>
       </View>
     </View>
   );
@@ -83,28 +97,28 @@ const styles = StyleSheet.create({
     borderColor: "#777",
     padding: 8,
     margin: 10,
-    width: 200,
+    width: 350,
   },
   address: {
     borderWidth: 1,
     borderColor: "#777",
     padding: 8,
     margin: 10,
-    width: 200,
+    width: 350,
   },
   phone: {
     borderWidth: 1,
     borderColor: "#777",
     padding: 8,
     margin: 10,
-    width: 200,
+    width: 350,
   },
   email: {
     borderWidth: 1,
     borderColor: "#777",
     padding: 8,
     margin: 10,
-    width: 200,
+    width: 350,
   },
 });
 
