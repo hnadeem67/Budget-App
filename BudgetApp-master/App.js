@@ -1,23 +1,76 @@
 import * as React from "react";
+import { useState } from "react";
 import {
   SectionList,
   ScrollView,
   Image,
   Text,
   View,
-  Button,
+  Alert,
+  Modal,
+  TouchableHighlight,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 import { TextInput } from "react-native";
-import logo from "./app/assets/man.png";
+import logo from "./app/assets/nerd-male-profile-avatar.png";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { IconButton, Colors } from "react-native-paper";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Container, Header, Content, Accordion } from "native-base";
 import { getReceipt, storeData, removeEverything } from "./app/Storage.js";
+import { LineChart, PieChart } from "react-native-chart-kit";
+import Svg from "react-native-svg";
+
+import { Dimensions } from "react-native";
+const screenWidth = Dimensions.get("window").width;
+const chartConfig = {
+  backgroundGradientFrom: "white",
+  backgroundGradientFromOpacity: 0,
+  backgroundGradientTo: "white",
+  backgroundGradientToOpacity: 0.5,
+  color: (opacity = 1) => `rgba(233,30,99, ${opacity})`,
+  strokeWidth: 2, // optional, default 3
+  barPercentage: 0.5,
+  useShadowColorFromDataset: false, // optional
+};
+
+const dataPie = [
+  {
+    name: "| Bills",
+    population: 16.87,
+    color: "blue",
+    legendFontColor: "black",
+    legendFontSize: 15,
+  },
+  {
+    name: "| Food",
+    population: 13.27,
+    color: "#F00",
+    legendFontColor: "black",
+    legendFontSize: 15,
+  },
+  {
+    name: "| Shopping",
+    population: 17.46,
+    color: "orange",
+    legendFontColor: "black",
+    legendFontSize: 15,
+  },
+];
+
+const dataLine = {
+  labels: ["Oct 2020", "Nov 2020", "Dec 2020"],
+  datasets: [
+    {
+      data: [679.13, 213.57, 47.6],
+      color: (opacity = 1) => `rgba(233, 30, 99, ${opacity})`, // optional
+      strokeWidth: 2, // optional
+    },
+  ],
+};
 
 const Stack = createStackNavigator();
 
@@ -33,7 +86,7 @@ const RootNavigation = () => {
       }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Storage" component={StorageScreen} />
+      <Stack.Screen name="Transactions" component={StorageScreen} />
     </Stack.Navigator>
   );
 };
@@ -47,6 +100,8 @@ export default function App() {
 }
 
 function HomeScreen({ navigation }) {
+  const [budget, setBudget] = React.useState("0.00");
+  const [modalVisible, setModalVisible] = useState(false);
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -54,7 +109,7 @@ function HomeScreen({ navigation }) {
           icon="receipt"
           color={"#e91e63"}
           size={25}
-          onPress={() => navigation.navigate("Storage")}
+          onPress={() => navigation.navigate("Transactions")}
           style={{ alignSelf: "flex-end" }}
         />
       ),
@@ -62,51 +117,83 @@ function HomeScreen({ navigation }) {
   }, [navigation]);
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <View style={{ paddingLeft: "5%", paddingTop: "20%" }}>
-        <Text style={{ color: "#e91e63", fontSize: 20, paddingTop: "75%" }}>
-          Recent Transactions
+      <View style={{ marginLeft: "5%", paddingTop: "5%" }}>
+        <Text style={{ color: "#e91e63", fontSize: 20 }}>
+          Spending Overview
+        </Text>
+        <Text style={{ paddingTop: "2.5%", paddingBottom: "2.5%" }}>
+          Monthly
         </Text>
       </View>
-      <View style={styles.container}>
-        <SectionList
-          sections={[
-            {
-              title: "December 2020",
-              data: [
-                "APPLE.COM/BILL 12/07                          -$5.99",
-                "PlaystationNetwork 12/07                     -$10.88",
-                "Subway 12/06                                         -$13.27",
-                "TARGET 12/03                                        -$17.46",
-              ],
-            },
-            {
-              title: "November 2020",
-              data: [
-                "Subway 11/25                                         -$12.19",
-                "BR FACTORY.COM 11/20                      -$19.72",
-                "NYTimes 11/17                                         -$4.00",
-                "Subway 11/14                                           -$13.27",
-                "SAFEWAY 11/13                                      -$18.39",
-                "PlaystationNetwork 11/07                     -$10.88",
-                "CHIK-FIL-A 11/04                                    -$14.13",
-              ],
-            },
-            {
-              title: "October 2020",
-              data: [
-                "VERIZON WRLS 10/23                          -$43.32",
-                "CHIK-FIL-A 10/20                                   -$30.22",
-                "NYTimes 10/17                                         -$4.00",
-                "Subway 10/15                                       -$13.05",
-              ],
-            },
-          ]}
-          renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
-          renderSectionHeader={({ section }) => (
-            <Text style={styles.sectionHeader}>{section.title}</Text>
-          )}
-          keyExtractor={(item, index) => index}
+      <View>
+        <LineChart
+          data={dataLine}
+          width={screenWidth}
+          height={220}
+          chartConfig={chartConfig}
         />
+      </View>
+
+      <View style={{ marginLeft: "5%", paddingTop: "5%" }}>
+        <Text style={{ color: "#e91e63", fontSize: 20 }}>Spending Summary</Text>
+        <Text style={{ paddingTop: "2.5%" }}>December 2020</Text>
+        <Text style={{ paddingBottom: "2.5%", color: "#e91e63" }}>
+          $47.60/$
+          {budget}
+        </Text>
+      </View>
+      <View>
+        <PieChart
+          data={dataPie}
+          width={screenWidth}
+          height={250}
+          chartConfig={chartConfig}
+          accessor={"population"}
+          backgroundColor={"transparent"}
+          paddingLeft={"15"}
+          absolute
+        />
+      </View>
+
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Enter budget</Text>
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <TextInput
+                  style={styles.name}
+                  onChangeText={(val) => setBudget(val)}
+                />
+              </View>
+
+              <TouchableHighlight
+                style={{ ...styles.openButton, backgroundColor: "#e91e63" }}
+                onPress={() => {
+                  setModalVisible(!modalVisible);
+                }}
+              >
+                <Text style={styles.textStyle}>Done</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </Modal>
+
+        <TouchableHighlight
+          style={styles.openButton}
+          onPress={() => {
+            setModalVisible(true);
+          }}
+        >
+          <Text style={styles.textStyle}>Edit Budget</Text>
+        </TouchableHighlight>
       </View>
     </View>
   );
@@ -129,16 +216,23 @@ function ProfileScreen() {
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <View
         style={{
-          paddingTop: "10%",
+          paddingTop: "15%",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <Image source={logo} style={{ height: 100, width: 100 }}></Image>
+        <Image source={logo} style={{ height: 90, width: 90 }}></Image>
       </View>
 
-      <View style={{ alignItems: "center", justifyContent: "center" }}>
-        <Text style={{ paddingBottom: "5%", fontSize: 35 }}>{name}</Text>
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          paddingTop: "2.5%",
+          paddingBottom: "2.5%",
+        }}
+      >
+        <Text style={{ fontSize: 35 }}>{name}</Text>
       </View>
 
       <View style={{ paddingLeft: "5%", paddingBottom: "5%" }}>
@@ -230,24 +324,63 @@ const StorageScreen = () => {
         content: [
           "APPLE.COM/BILL 12/07                                          $5.99 \n\n",
           "PlaystationNetwork 12/07                                    $10.88 \n\n",
-          "Target 12/03                                                           $17.46",
+          "Subway 12/06                                                        $13.27\n\n",
+          "Target 12/03                                                           $17.46\n\n",
+          "                                                                       Total: $47.6",
         ],
       },
       {
         title: "November 2020",
         content: [
           "Subway 11/25                                                         $12.19 \n\n",
+          "VERIZON WRLS 11/23                                         $115.00\n\n",
           "BR FACTORY.COM 11/20                                       $19.72 \n\n",
           "NYTimes 11/17                                                         $4.00 \n\n",
-          "PlaystationNetwork 11/07                                     $10.88",
+          "Subway 11/14                                                         $13.27\n\n",
+          "Safeway 11/13                                                        $18.39\n\n",
+          "APPLE.COM/BILL 11/07                                          $5.99\n\n",
+          "PlaystationNetwork 11/07                                     $10.88\n\n",
+          "CHIK-FIL-A 11/04                                                   $14.13\n\n",
+          "                                                                   Total: $213.57",
         ],
       },
       {
         title: "October 2020",
         content: [
-          "SAFEWAY 10/27                                                    $18.39 \n\n",
-          "Khols 10/23                                                            $21.99",
+          "VERIZON WRLS 10/23                                        $115.00 \n\n",
+          "Khols 10/23                                                            $21.99\n\n",
+          "CHIK-FIL-A 10/20                                                  $30.22\n\n",
+          "NYTimes 10/17                                                        $4.00\n\n",
+          "FINISH LINE 10/16                                              $478.00\n\n",
+          "Subway 10/16                                                         $13.05\n\n",
+          "APPLE.COM/BILL 10/07                                          $5.99\n\n",
+          "PlaystationNetwork 10/07                                    $10.88\n\n",
+          "                                                                   Total: $679.13",
         ],
+      },
+      {
+        title: "September 2020",
+      },
+      {
+        title: "August 2020",
+      },
+      {
+        title: "July 2020",
+      },
+      {
+        title: "June 2020",
+      },
+      {
+        title: "April 2020",
+      },
+      {
+        title: "March 2020",
+      },
+      {
+        title: "February 2020",
+      },
+      {
+        title: "January 2020",
       },
     ];
 
@@ -307,6 +440,46 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 18,
     height: 44,
+  },
+  container2: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 1050,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  openButton: {
+    backgroundColor: "#e91e63",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
   },
 });
 
