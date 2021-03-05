@@ -26,7 +26,6 @@ const ReceiptScreen = () => {
           icon="scanner"
           color={Colors.pink500}
           size={75}
-          onPress={openCamera}
         /><Text>Scan Receipt</Text>
       </View>
       <View style = {styles.screenButtonContainer}>      
