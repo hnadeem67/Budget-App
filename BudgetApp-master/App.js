@@ -22,6 +22,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Container, Header, Content, Accordion } from "native-base";
 import { getReceipt, storeData, removeEverything } from "./app/Storage.js";
 import { LineChart, PieChart } from "react-native-chart-kit";
+import ReceiptScreen  from './navigation/ReceiptScreen'
 import Svg from "react-native-svg";
 
 import { Dimensions } from "react-native";
@@ -195,14 +196,6 @@ function HomeScreen({ navigation }) {
           <Text style={styles.textStyle}>Edit Budget</Text>
         </TouchableHighlight>
       </View>
-    </View>
-  );
-}
-
-function ReceiptScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Receipt!</Text>
     </View>
   );
 }
