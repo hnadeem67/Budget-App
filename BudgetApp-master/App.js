@@ -22,7 +22,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Container, Header, Content, Accordion } from "native-base";
 import { getReceipt, storeData, removeEverything } from "./app/Storage.js";
 import { LineChart, PieChart } from "react-native-chart-kit";
-import ReceiptScreen  from './navigation/ReceiptScreen'
+import ReceiptsStackScreen  from './navigation/ReceiptScreen'
 import Svg from "react-native-svg";
 
 import { Dimensions } from "react-native";
@@ -476,6 +476,7 @@ const styles = StyleSheet.create({
   },
 });
 
+
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
@@ -498,7 +499,7 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Receipt"
-        component={ReceiptScreen}
+        component={ReceiptsStackScreen}
         options={{
           tabBarLabel: "Add",
           tabBarIcon: ({ color, size }) => (
