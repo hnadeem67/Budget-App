@@ -1,0 +1,23 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+		  package="community.revteltech.nfc">
+          
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-sdk android:minSdkVersion="10" />
+    <uses-feature android:name="android.hardware.nfc" android:required="false" />
+    > Set to true to display only devices that have NFC hardware
+
+
+
+    <intent-filter>
+    <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+    <category android:name="android.intent.category.DEFAULT"/>
+</intent-filter>
+
+<intent-filter>
+    <action android:name="android.nfc.action.TECH_DISCOVERED"/>
+</intent-filter>
+
+<meta-data android:name="android.nfc.action.TECH_DISCOVERED" android:resource="@xml/nfc_tech_filter" />
+
+</manifest>
